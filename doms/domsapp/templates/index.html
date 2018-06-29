@@ -1,0 +1,230 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<!--style starts-->
+<style type="text/css">
+	#changeLang{
+    position: fixed;
+    bottom: 430px;
+    right: 0px;
+    display: block;
+    border-radius:50%;
+    
+    border:transparent;
+    width: 100px;
+    height: 100px;
+  text-align: center;
+  padding-top: 10px;
+    border:1px solid blue;
+}
+#changeLang:hover{
+	cursor: pointer;
+}
+#changeEnglish{
+  position: fixed;
+    bottom: 430px;
+    right: 0px;
+    display: block;
+    border-radius:50%;
+    border:transparent;
+    width: 100px;
+    height: 100px;
+  text-align: center;
+  padding-top: 20px;
+    border:1px solid blue;
+}
+#changeEnglish:hover{
+	cursor: pointer;
+}
+
+	body{
+       font-family: "Montserrat" !important;
+
+		}
+    .search{
+
+    	margin: 0 auto;
+
+    }
+    .searchForm{
+
+text-align: center;
+margin-top: 30px;
+
+    }
+    .searchForm input{
+    	text-align: center;
+    }
+.files{
+
+	margin-top:100px;
+}
+.addForm{
+	text-align: center;
+	margin-top: 10px;
+}
+header h1{
+	text-align: center;
+	width: 100%;
+	padding: 1em;
+	background-color: #2BA6B5;
+	color: white;
+}
+.search #searchBtn{
+	background-color: #1D6ABE;
+	border:transparent;
+	
+	font-size: 20px;
+	color: white;
+}
+.search #searchBtn:hover{
+	cursor: pointer;
+	color: black;
+	background-color:white;
+	border:#1D6ABE 1px solid; 
+}
+#addfileBtn{
+	background-color:red; 
+	margin-top:80px;
+}
+.filelist{
+	background-color: #32779C;
+	padding: 1em;
+}
+#uploadedDate{
+fl
+
+}
+
+.fileadder{
+
+	margin-top: 90px;
+	padding: 1em;
+	width: 100%;
+	background-color: #ccc;
+}
+.addinput{
+	padding: 1em;
+	margin-top: 10px;
+}
+#fileinput{
+	border:1px solid blue;
+	padding: 1em;
+}
+
+
+
+
+
+
+
+
+
+</style>
+<!--style ends-->
+ <link rel ="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js
+"></script>
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js
+">
+	<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	<title>Namobuddha Nagarapalika System</title>
+</head>
+<body><!-- language change to nepali-->
+	<a id="changeLang">नेपालीमा परिवर्तन गर्नुहोस </a>
+	
+	<!-- language changer ends-->
+<header>
+	<h1 id="main-header">NamoBuddha File System</h1>
+
+</header>	
+<div class="search">
+	<form method="GET" action="/files/search/" class="searchForm">
+		<input type="text" name="q" placeholder="Search for files..." required id="searchField">
+		<button type="submit" id="searchBtn">Search</button>
+	</form>
+</div>
+<!--add file section-->
+<div class="fileadder">
+<form class="addForm" method="POST" action="/files/addfile/">
+{% csrf_token %}
+	<input type="file" name="fileadded" id="fileinput" placeholder="Choose File">
+	<br>
+	<label id="#titleLabel">Title</label>
+	<br>
+	<input type="text" name="title" placeholder="Enter Title" class="addinput" required>
+	<br>
+	
+	<br>
+	<label id="#commentLabel">Comments</label>
+	<br>
+	<input type="text" name="comments" placeholder="Enter Comments" class="addinput" required>
+	<br>
+	<label id="#categoryLabel">Category</label>
+	<br>
+	<select name="category">
+		<option>General</option>
+		<option>Education</option>
+<option>Ward</option>
+<option>District</option>
+
+	</select>
+	<br>
+	<button id="addfileBtn" type="submit">Add File</button>
+</form>
+</div>
+<!--add file section ends-->
+<div class="files container">
+	<h1>Current Files</h1>
+	{% for file in file %}
+	<div class="filelist">
+		<h3>{{file.title}}</h1>
+			<button>Delete</button>
+		<br>
+		<small id="uploadedDate">Uploaded at:{{file.uploaded_at}}</small>
+	</div>
+	<hr>
+{% endfor %}
+</div>
+
+
+<div>
+
+</div>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$('#addfileBtn').click(function(){
+alert("added");
+
+	});
+
+	//language changer code
+	$('#changeLang').click(function(){
+	$('#searchField').attr("placeholder", "फाइल खोज्नुहोस ");
+//$('searchField').placeholder("फाइल खोज्नुहोस ");
+$('#searchBtn').text("खोज्नुहोस ");
+$('#changeLang').css('background-color','red');
+$('#changeLang').text("Change to English");
+$('title').text("नमोबुद्ध फाइल प्रबिधि ");
+$('#main-header').text("नमोबुद्ध फाइल प्रबिधि ");
+$('#changeLang').attr("id", "changeEnglish");
+$('#fileinput').attr("placeholder", "फाइल छान्नुहोस्");
+$('label#titleLabel').html("Title man");
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
