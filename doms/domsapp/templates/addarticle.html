@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>add article</title>
+</head>
+<body>
+ <form class="site-form" action="/files/addfile/" method="post" enctype="multi/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" value="Create">Submit</button>
+        
+    </form>
+</body>
+</html>

@@ -1,230 +1,567 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
+
 <head>
-	<!--style starts-->
-<style type="text/css">
-	#changeLang{
-    position: fixed;
-    bottom: 430px;
-    right: 0px;
-    display: block;
-    border-radius:50%;
-    
-    border:transparent;
-    width: 100px;
-    height: 100px;
-  text-align: center;
-  padding-top: 10px;
-    border:1px solid blue;
-}
-#changeLang:hover{
-	cursor: pointer;
-}
-#changeEnglish{
-  position: fixed;
-    bottom: 430px;
-    right: 0px;
-    display: block;
-    border-radius:50%;
-    border:transparent;
-    width: 100px;
-    height: 100px;
-  text-align: center;
-  padding-top: 20px;
-    border:1px solid blue;
-}
-#changeEnglish:hover{
-	cursor: pointer;
-}
 
-	body{
-       font-family: "Montserrat" !important;
-
-		}
-    .search{
-
-    	margin: 0 auto;
-
+    <style type="text/css">
+    .site-form{
+        height: 100px;
+        width: 100%;
     }
-    .searchForm{
-
-text-align: center;
-margin-top: 30px;
-
-    }
-    .searchForm input{
-    	text-align: center;
-    }
-.files{
-
-	margin-top:100px;
-}
-.addForm{
-	text-align: center;
-	margin-top: 10px;
-}
-header h1{
-	text-align: center;
-	width: 100%;
-	padding: 1em;
-	background-color: #2BA6B5;
-	color: white;
-}
-.search #searchBtn{
-	background-color: #1D6ABE;
-	border:transparent;
-	
-	font-size: 20px;
-	color: white;
-}
-.search #searchBtn:hover{
-	cursor: pointer;
-	color: black;
-	background-color:white;
-	border:#1D6ABE 1px solid; 
-}
-#addfileBtn{
-	background-color:red; 
-	margin-top:80px;
-}
-.filelist{
-	background-color: #32779C;
-	padding: 1em;
-}
-#uploadedDate{
-fl
-
-}
-
-.fileadder{
-
-	margin-top: 90px;
-	padding: 1em;
-	width: 100%;
-	background-color: #ccc;
-}
-.addinput{
-	padding: 1em;
-	margin-top: 10px;
-}
-#fileinput{
-	border:1px solid blue;
-	padding: 1em;
-}
-
-
-
-
-
-
-
-
-
-</style>
-<!--style ends-->
- <link rel ="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js
+        body {
+            font-family: 'Ubuntu';
+        }
+        
+        .main {
+            display: grid;
+            grid-template-columns: 30% 70%;
+        }
+        
+        .main .fileadder {
+            background-color: #333;
+            min-height: 700px !important;
+            border: 5px solid #2D477B;
+            color: white;
+        }
+        
+        .main .files {
+            background-color: #ccc;
+            font-family: 'Ubuntu';
+        }
+        
+        .fileadder h2 {
+            text-align: center;
+        }
+        
+        .addForm {
+            text-align: center;
+        }
+        
+        .addinput {
+            width: 90%;
+            margin-top: 10px;
+            font-family: 'Ubuntu';
+            height: 50px;
+        }
+        
+        .comment-input {
+            height: 110px;
+        }
+        
+        #categoryLabel {
+            margin-top: 10px;
+        }
+        
+        .category-class {
+            width: 40%;
+            text-align: center;
+            height: 30px;
+            background-color: #203359;
+            color: white;
+        }
+        
+        .category-class:hover {
+            cursor: pointer;
+        }
+        
+        #addfileBtn {
+            background-color: #D15D0F;
+            border: transparent;
+            width: 50%;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+        
+        #addfileBtn:hover {
+            border: transparent;
+            cursor: pointer;
+            background-color: #6B78B8;
+        }
+        
+        header {
+            background-color: #0F1119;
+            color: white;
+            height: 100px;
+            padding-left: 10px;
+            padding-top: 10px;
+            font-family: 'Montserrat';
+        }
+        
+        .see-cmt:hover {
+            cursor: pointer;
+        }
+        /*style for modal*/
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: ;
+            height: 50%;
+            width: 50%;
+            margin-right: 25%;
+            margin-left: 25%;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 20% auto;
+            width: 70%;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+            animation-name: modalopen;
+            animation-duration: 1s;
+        }
+        
+        .modal-header h2,
+        .modal-footer h3 {
+            margin: 0;
+        }
+        
+        .modal-header {
+            background: #F02C2C;
+            padding: 15px;
+            color: #fff;
+        }
+        
+        .modal-body {
+            padding: 10px 20px;
+        }
+        
+        .modal-footer {
+            background: #F02C2C;
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .closeBtn {
+            color: #ccc;
+            float: right;
+            font-size: 30px;
+            color: #fff;
+        }
+        
+        .closeBtn:hover,
+        .closeBtn:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        @keyframes modalopen {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        .confirm-btn {
+            width: 20%;
+            margin-left: 40%;
+            margin-right: 40%;
+            background-color: red;
+            border: transparent;
+        }
+        
+        .closeBtnClass {
+            width: 20%;
+            margin-left: 40%;
+            margin-right: 40%;
+            margin-top: 10px;
+        }
+        /*modal style ends*/
+        
+        .searchForm {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        #searchBtn {
+            background-color: #1D6ABE;
+            border: transparent;
+            width: 20%;
+            padding: 0.5em;
+            font-size: 20px;
+            color: white;
+        }
+        
+        #searchBtn:hover {
+            cursor: pointer;
+            color: black;
+            background-color: white;
+            border: #1D6ABE 1px solid;
+        }
+        
+        #searchField {
+            height: 50px;
+            text-align: center;
+            width: 40%;
+        }
+        
+        #cateId {
+            background-color: yellow;
+            border: 1px solid blue;
+            color: black;
+            font-size: 16px;
+        }
+        
+        #current-files {
+            text-align: center;
+        }
+        
+        #changeNep {
+            position: fixed;
+            bottom: 460px;
+            right: 0px;
+            display: block;
+            border-radius: 50%;
+            background-color: #073A87;
+            box-shadow: 5px;
+            border: transparent;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            padding-top: 17px;
+            #border: 1px solid blue;
+            color: white;
+        }
+        
+        #changeNep:hover {
+            cursor: pointer;
+        }
+        
+        #changeEng {
+            position: fixed;
+            bottom: 460px;
+            right: 0px;
+            display: block;
+            border-radius: 50%;
+            border: transparent;
+            width: 100px;
+            background-color: #CF112C;
+            height: 100px;
+            text-align: center;
+            padding-top: 20px;
+            color: white;
+        }
+        
+        #changeEng:hover {
+            cursor: pointer;
+        }
+        
+        .status-class {
+            width: 40%;
+            text-align: center;
+            height: 30px;
+            background-color: #203359;
+            color: white;
+        }
+        
+        #stat {
+            background-color: red;
+        }
+        
+        #statid {
+            background-color: #333;
+            float: right;
+            color: white;
+            border: 3px solid white;
+        }
+    </style>
+    <title>Namobuddha System</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js
 "></script>
-	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.3.1.min.js
 ">
-	<link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-	<title>Namobuddha Nagarapalika System</title>
 </head>
-<body><!-- language change to nepali-->
-	<a id="changeLang">नेपालीमा परिवर्तन गर्नुहोस </a>
-	
-	<!-- language changer ends-->
-<header>
-	<h1 id="main-header">NamoBuddha File System</h1>
 
-</header>	
-<div class="search">
-	<form method="GET" action="/files/search/" class="searchForm">
-		<input type="text" name="q" placeholder="Search for files..." required id="searchField">
-		<button type="submit" id="searchBtn">Search</button>
-	</form>
+<body>
+    <!--language changer-->
+    <a id="changeNep">नेपालीमा परिवर्तन गर्नुहोस </a>
+    <a id="changeEng">Change to English</a>
+    <!--language changer ends-->
+    <!--secondary modal popup-->
+
+    <!--secondary modal popup ends-->
+    <!--Delete from modal starts-->
+    <div id="simpleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h2>Are you sure you want to delete?</h2>
+                <span class="closeBtn">&times;</span>
+            </div>
+            <div class="modal-body">
+                {% for i in file %}
+
+                <form action="{% url 'delete_view' pk=i.pk %}" method="POST">
+                    {% endfor %} {% csrf_token %}
+                    <button class="confirm-btn" type="submit" value="Delete">Yes</button>
+
+                </form>
+
+                <button class="closeBtnClass">No</button>
+            </div>
+
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+    <!--delete from modal ends-->
+
+    <!--Header-->
+    <header>
+
+        <h1 id="main-header">Namobuddha File System</h1>
+    </header>
+    <!--header ends-->
+    <div class="main">
+        <!--file adding div-->
+        <div class="fileadder">
+            <h2 id="add-header">Add Files</h2>
+            <hr>
+            <form class="addForm" method="POST" action="/files/addfile/">
+                {% csrf_token %}
+                <input type="file" name="fileadded" id="fileinput" placeholder="Choose File">
+                <hr>
+
+                <label id="#titleLabel">Title</label>
+                <hr>
+                <input type="textarea" name="title" placeholder="Enter Title" class="addinput" required>
+                <hr>
+
+                <label id="#commentLabel">Comments</label>
+                <hr>
+                <textarea name="comments" class="addinput comment-input" required=""></textarea>
+
+                <hr>
+                <label id="#categoryLabel">Category</label>
+
+                <select name="category" class="category-class" required>
+                    <option>General</option>
+                    <option>Education</option>
+                    <option>Ward</option>
+                    <option>District</option>
+
+                </select>
+                <hr>
+                <label id="#status">Work Status</label>
+
+                <select name="status" class="status-class" required>
+                    <option>Completed</option>
+                    <option>Pending</option>
+
+                </select>
+                <hr>
+                <button id="addfileBtn" type="submit">Add File</button>
+
+            </form>
+        </div>
+
+        <!--file adding div ends-->
+
+        <!--File preview div-->
+        <div class="files">
+            <div class="search">
+                <form method="GET" action="/files/search/" class="searchForm">
+                    <input type="text" name="q" placeholder="Search for files..." required id="searchField">
+                    <button type="submit" id="searchBtn">Search</button>
+                </form>
+                <form action="/files/search/">
+                    <h4>Search By Categories</h4>
+                    <select class="search-cat" name="q" action="/files/search/">
+                        <option>Education</option>
+                        <option>District</option>
+                        <option>General</option>
+                        <option>Wards</option>
+                    </select>
+                    <button type="submit">Search Categories</button>
+                </form>
+                <!--end of cat search-->
+                <!--start of date search-->
+                <form action="/files/searchdate/">
+                    <h4>Search By Date</h4>
+                    <!--select for month-->
+                    <select class="month-cat" name="q" action="/files/searchdate/">
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                    </select>
+                    <!--select for exact date search-->
+                    <select name="q" action="/files/searchdate/">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                    </select>
+                    <!--select for year-->
+                    <select name="q" action="/files/searchdate/">
+                        <option>2010</option>
+                        <option>2011</option>
+                        <option>2012</option>
+                        <option>2013</option>
+                        <option>2014</option>
+                        <option>2015</option>
+                        <option>2016</option>
+                        <option>2017</option>
+                        <option>2018</option>
+
+                    </select>
+                    <br>
+                    <button type="submit">Search by Date</button>
+                </form>
+
+            </div>
+            <div class="container">
+                <h1 id="current-files">Current Files</h1> {% for file in file %}
+                <div class="filelist">
+                    <h3>{% if file.document %} <a href="{{ file.document.url }}" class="fileClass">{{file.title}} {% endif %}</a><small id="cateId">{{file.category}}</small><small id="statid">{{file.status}}</small></h3>
+                    <!--<form action="{% url 'delete_view' pk=file.pk %}" method="POST">
+	{% csrf_token %}-->
+                    <button class="deleteBtn btn-danger">Delete</button>
+
+                    <small class="see-cmt">See Comment</small>
+                    <p class="comment-p">{{file.comments}}</p>
+                    <br>
+                    <small id="uploadedDate">Uploaded at:{{file.uploaded_at}}</small>
+
+                </div>
+                <hr> {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <!--file preview div ends-->
+
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        //jQuery
+        $('.comment-p').hide();
+
+        $('.see-cmt').click(function() {
+
+            $('.comment-p').toggle(this);
+
+        });
+        //language changer code
+        $('#changeEng').hide();
+        $('#changeNep').click(function() {
+            $('#searchField').attr("placeholder", "फाइल खोज्नुहोस ");
+            //$('searchField').placeholder("फाइल खोज्नुहोस ");
+            $('#searchBtn').text("खोज्नुहोस ");
+
+            $('title').text("नमोबुद्ध फाइल प्रबिधि ");
+            $('#main-header').text("नमोबुद्ध फाइल प्रबिधि ");
+            $('#changeNep').hide();
+            $('#changeEng').show();
+            $('#fileinput').attr("placeholder", "फाइल छान्नुहोस्");
+            $('#add-header').text('File halnuhos')
+        });
+
+        $('#changeEng').click(function() {
+            $('#searchField').attr("placeholder", "Search for files... ");
+            $('#searchBtn').text("Search ");
+
+            $('#changeNep').text("नेपालीमा परिवर्तन गर्नुहोस ");
+            $('title').text("Namobuddha File System ");
+            $('#main-header').text("Namobuddha File System");
+            $('#changeEng').hide();
+            $('#changeNep').show();
+            $('#add-header').text('Add files')
+        });
+
+        //JS for MODAL
+        // Get modal element
+        var modal = document.getElementById('simpleModal');
+        // Get open modal button
+        var modalBtn = document.getElementsByClassName('deleteBtn');
+        // Get close button
+        var closeBtn = document.getElementsByClassName('closeBtn')[0];
+        var closeBtnClass = document.getElementsByClassName('closeBtnClass')[0];
+        // Listen for open click
+        for (var i = 0; i < modalBtn.length; i++) {
+
+            modalBtn[i].addEventListener('click', openModal);
+        }
+        // Listen for close click
+        closeBtn.addEventListener('click', closeModal);
+        closeBtnClass.addEventListener('click', closeModal);
+        // Listen for outside click
+        window.addEventListener('click', outsideClick);
+
+        // Function to open modal
+        function openModal() {
+            modal.style.display = 'block';
+        }
+
+        // Function to close modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Function to close modal if outside click
+        function outsideClick(e) {
+            if (e.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+<div class="container">
+    <form class="site-form" action="/files/addfile/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" value="Create">Submit</button>
+        
+    </form>
+        
 </div>
-<!--add file section-->
-<div class="fileadder">
-<form class="addForm" method="POST" action="/files/addfile/">
-{% csrf_token %}
-	<input type="file" name="fileadded" id="fileinput" placeholder="Choose File">
-	<br>
-	<label id="#titleLabel">Title</label>
-	<br>
-	<input type="text" name="title" placeholder="Enter Title" class="addinput" required>
-	<br>
-	
-	<br>
-	<label id="#commentLabel">Comments</label>
-	<br>
-	<input type="text" name="comments" placeholder="Enter Comments" class="addinput" required>
-	<br>
-	<label id="#categoryLabel">Category</label>
-	<br>
-	<select name="category">
-		<option>General</option>
-		<option>Education</option>
-<option>Ward</option>
-<option>District</option>
-
-	</select>
-	<br>
-	<button id="addfileBtn" type="submit">Add File</button>
-</form>
-</div>
-<!--add file section ends-->
-<div class="files container">
-	<h1>Current Files</h1>
-	{% for file in file %}
-	<div class="filelist">
-		<h3>{{file.title}}</h1>
-			<button>Delete</button>
-		<br>
-		<small id="uploadedDate">Uploaded at:{{file.uploaded_at}}</small>
-	</div>
-	<hr>
-{% endfor %}
-</div>
-
-
-<div>
-
-</div>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	$('#addfileBtn').click(function(){
-alert("added");
-
-	});
-
-	//language changer code
-	$('#changeLang').click(function(){
-	$('#searchField').attr("placeholder", "फाइल खोज्नुहोस ");
-//$('searchField').placeholder("फाइल खोज्नुहोस ");
-$('#searchBtn').text("खोज्नुहोस ");
-$('#changeLang').css('background-color','red');
-$('#changeLang').text("Change to English");
-$('title').text("नमोबुद्ध फाइल प्रबिधि ");
-$('#main-header').text("नमोबुद्ध फाइल प्रबिधि ");
-$('#changeLang').attr("id", "changeEnglish");
-$('#fileinput').attr("placeholder", "फाइल छान्नुहोस्");
-$('label#titleLabel').html("Title man");
-});
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
+
 </html>
